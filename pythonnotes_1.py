@@ -30,16 +30,18 @@ achieve multiple statements in one line, but it is rarely necessary.
 
 Curly braces are only used for dictionaries. Scope is determined through
 indentation as will be further demonstrated. Indentation is strictly
-forced so it is recommended to convert tabs to spaces. Using tabs to indent
+enforced so it is recommended to convert tabs to spaces. Using tabs to indent
 does work, but mixed tabs/spaces has bitten me in the past when finding
 indentation errors.
 
-Stylistically, class names in object oriented programming start with capital
+Typically, programmers try to adhere to the PEP-8 style guide to format their
+code. Stylistically, class names in object oriented programming start with capital
 letters. Everything else is typically lowercase. under_scores in variable names
 are prefered over camelCase.
 
 Python will not allow you to use override reserved keywords. The list of these
-are easily found online.
+are easily found online. For example:
+https://docs.python.org/2.5/ref/keywords.html
 
 Python has two forms of comments. Multiline comments can be within triple quotes.
 Single line comments start with a #.
@@ -117,6 +119,7 @@ complex_var = 1 + 2j #complex types exist too
 bool_var = True
 
 string_var = "This is a string" #string var
+string_var = str(float_var) #create a string converted from float_var
 
 list_type = [0,1,"abc",7.63,2.6+3.14j] #storing values in a list
 
@@ -138,7 +141,7 @@ scope.
 
 Be careful when testing equivalence. Make sure you know if you are comparing value
 or object reference. == or != tests value equality where as 'is' or 'is not' tests
-object identity.
+object identity. More on this in further notes.
 
 Logical not, and, and or use words instead of the C operators.
 
