@@ -32,13 +32,23 @@ ft_list = dft(wave_list)
 #computing the absolute values of dft
 abs_ft_list = [abs(ft) for ft in ft_list]
 
-x = np.arange(num_samps)
+x_wave = np.arange(num_samps)
 
-pyplot.subplot(2,1,1)
-pyplot.plot(x,wave_list)
+x_ft = np.arange(num_samps/2)
+#x_ft = [x *(1/num_samps) for x in x_ft]
 
-pyplot.subplot(2,1,2)
-pyplot.plot(x,abs_ft_list)
+#Create figure for the first window
+pyplot.figure()
+pyplot.plot(x_wave,wave_list)
+pyplot.title("Original Waveform")
+
+#Create Figure for the second window
+pyplot.figure()
+
+#Slice the first half of the list for the single side FFT
+single_side_ft = abs_ft_list[0:(num_samps/2)]
+pyplot.plot(x_ft,single_side_ft)
+pyplot.title("Single Side FFT Magnitude")
 
 pyplot.show()
 

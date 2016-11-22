@@ -1,169 +1,108 @@
 """
-Python imports revisted
+Python command line arguments
 
-It is important to note that when a Python script is executed or imported
-all code is run. Sometimes we want this if we want to run some overhead
-or global data at import. But sometimes we would like portions of our script
-not to run if its imported and instead run only that code if that script
-is run as a stand alone.
+There are several options for parsing command line arguments in Python. The
+easiest way is to use the sys module which gives you direct access to argv,
+similar to C. The difference between C and Python is that the program name
+is not stored in the first index of argv.
 
-For this scenario we use a line in the script as follows:
-    if __name__ == "__main__":
-        code_goes_here()
+There are other modules such as argparse and getopt which allow for more
+robust command line argument parsing, and make it easier to do key:value
+style argument parsing, ex. "--freq 12e6 --timescale 1e-3". These notes won't
+cover these modules in detail as there are already good tutorials out there.
+I would recommend using argparse or getopt if you plan to distribute your
+code to anyone, or if you expect other people may use your code at any time.
+It just makes for more clear arguments and these modules can also provide
+help messages for users.
 
-Python is smart enough to know if its the main script or if it's been imported.
-This check can be used to build scripts that have different behaviour if used
-as a standalone. You could for example build a module as part of analysis code
-and your testing could go in a if __name__ == "__main__", but that testing
-code will not run if imported into your main project.
-
-You may also have a folder of scripts you want to treat as a package. By placing
-a file called __init__.py into a folder, Python will try import all .py files
-for you. Your __init__.py file can have code in it when building fancy packages,
-but can also be blank. This file is just to tell python to treat the folder as 
-a collection of scripts. This very useful for grouping your common scripts together.
+It is important to note that using the basic argv list provided by 
+sys will throw errors if you forget to pass an argument, or if the 
+argument is of the wrong type. argparse or getopt provide functionality
+to type check inputs and handle incorrect arguments.
 
 """
 
-def main():
-    #main code goes here
+import sys
+
+#sys.argv is a list of command line arguments passed to the program
+print(sys.argv)
+
+#*try/except blocks covered later. They catch and handle errors.
+try:
+    freq = sys.argv[0]
+    timescale = sys.argv[1]
+except:
     pass
 
-#A typical way to simulate a main function.
-if __name__ == "__main__":
-    main()
-
-#from the examples folder, import the file blank.py
-#you can import selectively, or everything.
-import examples.blank
 
 """
-Python lists revisted
+Python file IO
 
-We've seen before that Python lists can be used to build containers
-that can hold a collection of any type.
+The most basic file IO in Python is printing to stdout using the print command.
+Printing works slightly different between Python 2 and Python 3. In Python 2,
+print is a statement, and in Python 3 print is a function. The way I use print
+to never have a problem is to just always use parenthesis when printing. Python
+2 will treat this as printing a tuple, and Python 3 will perform it as a
+function call. This is slightly annoying to have to consider, but the switch
+to treating print as a function is Python 3 is somewhat beneficial as now
+it can be used in places where statements are not allowed, ex. list comphrensions.
 
-Lists are indexed like arrays using the square bracket notation. They
-are sliced using a colon to delimit the start and stop indices of a slice.
-Lists can be indexed using negative numbers as well. Negative numbers move
-backwards in the list, where as positive numbers move forwards though the list.
+User input is done using raw_input or input. raw_input returns the user input 
+as a string whereas input actually assumes the input is a valid Python expression
+and will evaluate it and return the result.
 
-Lists have several important methods associated with them. The most important
-ones are append, remove and extend.
+Files can be manipulated too. The most common operations are to open and close
+files, and to read and write from them. One important Python statement is the with 
+statement. There are many cases in Python where your operations require a set
+up and tear down. For example, files need to be opened and then closed. Databases
+require a connect and a disconnect. Going into Python in a deeper level, there
+are certain constructs in place when developers create Python classes that
+allow them to define these set up and tear down methods. The with command
+will automatically run this overhead for you. This is useful for files, because
+we dont have to worry about accidently forgetting to close them when we are
+done using them. This is demonstrated in the examples.
 
-The len() function returns the number of elements in a list.
-
-Lists have + and * operators. + will concatenate lists, but will only work
-with lists. No other sequences. * is a scaler operation which will repeat
-a number of values in the list.
-
-A powerful feature of Python is the list comprehension. This allows us to
-create lists in a very natural way. They are very useful to generate a new list
-from an existing sequence. The syntax for list comprehension is somewhat 
-confusing at first but becomes the most fast and powerful way to generate data
-lists once you master them. List comprehensions are generally much faster than 
-for loops for data generation. See the examples below.
+I find that working with files is usually pretty custom because people usually
+have different ways they want to work with their file contect. There is lots 
+of additional information on working with files online.
 
 """
 
-list1 = ['a', 's', 'd', 'f', 'g']
-list_slice_1 = list1[0] #list_slice_1 = 'a'
-list_slice_2 = list1[1:3] #list_slice_2 = ['s','d']
-list_slice_3 = list1[-1] #list_slice_3 = 'g'
-list_slice_4 = list1[2:] # slices from index 2 to end
+#print statement
+print("This is the python print command!")
 
-list2 = [] #making empty list
-for i in range(8):
-    list2.append(i) #appending new values on the fly
+#receiving using input
+input_str = raw_input("Enter an input string: ")
+data = input("Enter your Python data: ")
 
-list2.remove(2) #finds 2 in the list and removes it
-del(list2[3]) #deletes an item at a specific index
+#open a file in read mode. A list of other modes can be found online
+f = open("testfile.txt",'r')
 
-list1.extend(list2) #concatenates list2 to list1. Extend will
-#concatenate any sequence, such as tuples for example.
+#read file contents into a variable
+file_data = f.read()
 
-list_len = len(list1) #returns number of elements.
+#closing a file
+f.close()
 
-list3 = list1 + list2 # + operator concatenates lists
+#open file in write mode. If the file doesnt exist, its created.
+f = open("writefile.txt",'w')
 
-list4 = ['hello'] * 3 # list5 = ['hello','hello','hello']
+#write out some data to the file
+f.write("I'm writing out some text!")
 
-#list comprehension examples
+#close the file after using
+f.close()
 
-#for each letter in list1, convert to uppercase and make a new list
-#of uppercase values
-list1 = ['a', 's', 'd', 'f', 'g']
-upper_list = [letter.upper() for letter in list1]
+#by using the with statement, the file is automatically closed when
+#we leave the scope
+with open("testfile.txt") as f:
+    file_data = f.read()
 
-#this syntax is shorthand for the following loop, but will also run much faster
-#as Python list comprehensions are better optimized
-upper_list = []
-for letter in list1:
-    upper_list.append(letter)
-
-#for each value in celsius, convert to fahrenheit and build a new
-#list of fahrenheit data points.
-celsius = [39.2, 36.5, 37.3, 37.8]
-fahrenheit = [ ((float(9)/5)*x + 32) for x in celsius]
-
-real = [1,2,3,4,5]
-imag = [-1,-2,-3,-4,-5]
-
-#here we perform a list comprehension over two lists to convert lists representing
-#real and imaginary numbers into a complex value. The zip function allows you to 
-#iterate over multiple sequences by returning a tuple of items at matching indices.
-cmplx = [ complex(r,i) for r,i in zip(real,imag)]
-
-#There is powerful tools available for list comprehensions. As you become more
-#familiar with them, try to build clever code for compact code. Complicated 
-#list comphrensions are fine because your data generation is compact and its
-#obvious what expressions are involved, but try use intelligent naming.
-
-alpha = [1,2,3,7,8,9]
-beta = [1,3,5,7,9]
-x = [1,2,3,4,5,6,7,8,9]
-
-#Much more complicated expression, but remains concise and readable
-y = [x for x in x if (x not in alpha and x not in beta)] #y = [4,6]
+#f is closed here
 
 
 
-"""
-Python object identity
-
-It is important to note how Python objects work. In Python, everything is an 
-object. Numbers, strings, data structures, and even functions are objects.
-When we create a new variable that variable is actually a reference to that
-object. This is why we must be careful when testing equivalence. We need to
-know whether we are testing references or values.
-
-The biggest confusion with comparison often comes with strings and number
-literals. When strings literals, aka. words you type that are surrounded by
-quotes, or number literals are entered into the interpretter or scripts, 
-Python has a speed benefit by creating only one instance of that literal
-and making all duplicate objects point to these instances. However, if values
-are generated on the fly at runtime, Python won't necessarily know that your
-literals are the same thing. The examples demonstrate this.
-
-Another thing to note is that Python always passes arguments to functions
-by value. This means if you update the reference to what an argument points to
-then it will only be local to the scope of that function.
-
-"""
 
 
-#Since these are literals defined before runtime they can point to the same spot
-string1 = "This is a string"
-string2 = "This is a string"
 
-print("String1 String2 value comparison")
-print(string1 == string2) #True
-print("String String2 reference comparison")
-print(string1 is string2) #True
 
-string3 = ' '.join(['This','is','a','string'])
-
-print("String1 String3 value comparison")
-print(string1 == string3)
-print("String1 String3 reference comparison")
-print(string1 is string3)
