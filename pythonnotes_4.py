@@ -48,7 +48,7 @@ class Vehicle(object):
     def __init__(self, make, model, color):
         #super refers to the class being inherited. We are simply
         #calling the constructor of the base class.
-        super(ClassName, self).__init__()
+        super(Vehicle, self).__init__()
 
         #Lets create some properties of this function. Using the dot operator
         #on self creates new properties for this class and we can assign
@@ -65,6 +65,7 @@ class Vehicle(object):
 
 
 new_vehicle = Vehicle("Ford","Fiesta","green")
+new_vehicle.change_color("purple with green polka dots")
 
 #It's completely possible to access object properties directly,
 #although its seen as a bad programming practice. It's better
@@ -82,13 +83,14 @@ class BigTruck(Vehicle):
     def __init__(self, make, model, color,has_4x4):
         #super refers to the class being inherited. We are simply
         #calling the constructor of the base class.
-        super(ClassName, self).__init__(make, model, color)
+        super(BigTruck, self).__init__(make, model, color)
 
         #We can reuse the properties of the general case, while adding
         #or changing stuff for a specific case!
         self.has_4x4 = has_4x4
 
 new_truck = BigTruck("Ford","F350","white",True)
+
 
 
 
