@@ -20,7 +20,7 @@ code will not run if imported into your main project.
 You may also have a folder of scripts you want to treat as a package. By placing
 a file called __init__.py into a folder, Python will try import all .py files
 for you. Your __init__.py file can have code in it when building fancy packages,
-but can also be blank. This file is just to tell python to treat the folder as 
+but can also be blank. This file is just to tell python to treat the folder as
 a collection of scripts. This very useful for grouping your common scripts together.
 
 """
@@ -59,9 +59,9 @@ a number of values in the list.
 
 A powerful feature of Python is the list comprehension. This allows us to
 create lists in a very natural way. They are very useful to generate a new list
-from an existing sequence. The syntax for list comprehension is somewhat 
+from an existing sequence. The syntax for list comprehension is somewhat
 confusing at first but becomes the most fast and powerful way to generate data
-lists once you master them. List comprehensions are generally much faster than 
+lists once you master them. List comprehensions are generally much faster than
 for loops for data generation. See the examples below.
 
 """
@@ -99,7 +99,7 @@ upper_list = [letter.upper() for letter in list1]
 #as Python list comprehensions are better optimized
 upper_list = []
 for letter in list1:
-    upper_list.append(letter)
+    upper_list.append(letter.upper())
 
 #for each value in celsius, convert to fahrenheit and build a new
 #list of fahrenheit data points.
@@ -110,28 +110,28 @@ real = [1,2,3,4,5]
 imag = [-1,-2,-3,-4,-5]
 
 #here we perform a list comprehension over two lists to convert lists representing
-#real and imaginary numbers into a complex value. The zip function allows you to 
+#real and imaginary numbers into a complex value. The zip function allows you to
 #iterate over multiple sequences by returning a tuple of items at matching indices.
 cmplx = [ complex(r,i) for r,i in zip(real,imag)]
 
 #There is powerful tools available for list comprehensions. As you become more
-#familiar with them, try to build clever code for compact code. Complicated 
+#familiar with them, try to build clever code for compact code. Complicated
 #list comphrensions are fine because your data generation is compact and its
 #obvious what expressions are involved, but try use intelligent naming.
 
 alpha = [1,2,3,7,8,9]
 beta = [1,3,5,7,9]
-x = [1,2,3,4,5,6,7,8,9]
+x_list = [1,2,3,4,5,6,7,8,9]
 
 #Much more complicated expression, but remains concise and readable
-y = [x for x in x if (x not in alpha and x not in beta)] #y = [4,6]
+y = [x for x in x_list if (x not in alpha and x not in beta)] #y = [4,6]
 
 
 
 """
 Python object identity
 
-It is important to note how Python objects work. In Python, everything is an 
+It is important to note how Python objects work. In Python, everything is an
 object. Numbers, strings, data structures, and even functions are objects.
 When we create a new variable that variable is actually a reference to that
 object. This is why we must be careful when testing equivalence. We need to
@@ -139,7 +139,7 @@ know whether we are testing references or values.
 
 The biggest confusion with comparison often comes with strings and number
 literals. When strings literals, aka. words you type that are surrounded by
-quotes, or number literals are entered into the interpretter or scripts, 
+quotes, or number literals are entered into the interpretter or scripts,
 Python has a speed benefit by creating only one instance of that literal
 and making all duplicate objects point to these instances. However, if values
 are generated on the fly at runtime, Python won't necessarily know that your
