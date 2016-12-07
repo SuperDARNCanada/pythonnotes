@@ -19,7 +19,6 @@ class FOV(object):
 
     def range_gate_distance_km(self,range_number):
         if range_number < 0 or range_number > self.num_ranges:
-            print("Trouble in python land")
             raise ValueError("Problems!!!!",range_number)
 
         range_gate_distance_km = self.pulse_width * range_number * speed_of_light/1000.0
@@ -41,5 +40,5 @@ except ValueError:
     range_gate_distance_km = clyde_fov.range_gate_distance_km(6)
 
 
-print("Range gate distance(km) for range 5", range_gate_distance_km)
+print("Range gate distance(km) for range ", range_gate_distance_km)
 
