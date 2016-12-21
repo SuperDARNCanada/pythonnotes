@@ -109,7 +109,20 @@ http://matplotlib.org/
 
 Matplotlib is an extensive set of plotting tools for Python. You could take an
 entire course on all the features of matplotlib, but I will show the basics to
-plotting that you can use to create basic plots to see your data.
+plotting that you can use to create basic plots to see your data. Matplotlib
+expects data in the form of Numpy arrays. You should convert your data whenever
+possible.
+
+Matplotlib tries to follow a very similar model to Matlab plotting.
+Matplotlib plots can be described as follows: the whole window and everything
+contained is called the "figure". Any plots, textboxes, drawings, etc are all
+contained within the this "figure" object. The "axes" child of a "figure" can
+be thought of as the plot. The "axes" object contains a set of "axis" objects
+(2 for 2D plots and 3 for 3D plots) as well as the data visualization. The
+"axis" objects can be used to control things like data limits on each axis of
+the plot.
+
+More info here: http://matplotlib.org/faq/usage_faq.html#parts-of-a-figure
 
 
 """
@@ -118,6 +131,7 @@ plotting that you can use to create basic plots to see your data.
 #you are saving your figures to file or if you are interactively plotting.
 #The default backend doesn't work on my computer so this how you change
 #the image backend if you need to.
+#More here: http://matplotlib.org/faq/usage_faq.html#what-is-a-backend
 import matplotlib
 matplotlib.use("TkAgg")
 
@@ -131,25 +145,39 @@ y_data2 = np.random.randn(25)
 x_data2 = np.arange(len(y_data2))
 
 #plotting both sets in one window
-plt.figure() #creates a 'new window'
-plt.plot(x_data1,y_data1,'-o')
-plt.plot(x_data2,y_data2,'-xr')
-plt.title("Plot of two sets of random data")
-plt.xlabel("Sample number")
-plt.ylabel("Random sample value")
+fig1 = plt.figure() #creates a 'new window'
+
+# add a new plot. The numbers specify grid parameters. In this
+# case "1x1 grid, 1st subplot".
+ax = fig1.add_subplot(111) #returns us a new "Axes" object to work with
+ax.plot(x_data1,y_data1,'-o')
+ax.plot(x_data2,y_data2,'-xr')
+ax.set_title("Plot of two sets of random data")
+ax.set_xlabel("Sample number")
+ax.set_ylabel("Random sample value")
 
 
 #or we could create two seperate windows
-plt.figure() #we can create more windows by creating a new figure
-plt.plot(x_data1,y_data1,'-o')
-plt.title("Plot of first random data")
-plt.xlabel("Sample number")
-plt.ylabel("Random sample value")
+fig2 = plt.figure() #we can create more windows by creating a new figure
+ax = fig2.add_subplot(111)
+ax.plot(x_data1,y_data1,'-o')
+ax.set_title("Plot of first random data")
+ax.set_xlabel("Sample number")
+ax.set_ylabel("Random sample value")
 
-plt.figure()
-plt.plot(x_data2,y_data2,'-xr')
-plt.title("Plot of second random data")
-plt.xlabel("Sample number")
-plt.ylabel("Random sample value")
+fig3 = plt.figure()
+ax = fig3.add_subplot(111)
+ax.plot(x_data2,y_data2,'-xr')
+ax.set_title("Plot of second random data")
+ax.set_xlabel("Sample number")
+ax.set_ylabel("Random sample value")
+
+# "Fast and easy" way to plot. Skip the "Axes" object and
+# plot straight to the figure. This is useful for quick plots
+# but will probably lead to issues if you are making complicated
+# or publication quality plots.
+
+fig4 = plt.figure()
+plt.plot(x_data2,y_data2)
 
 plt.show()
